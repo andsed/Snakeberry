@@ -111,3 +111,32 @@ class RadioNowPlaying(tornado.web.RequestHandler):
             errNum = errNumStopRadioStationFailed
             
         self.write(SnakeberryJSON().encode(Response(errNum, errMsg, rObject)))
+
+class RadioWebControl(tornado.web.RequestHandler):
+    def get(self):
+
+	#output currently playing station
+	try:
+            rObject = Mplayer.currentProcess
+            if(rObject == None):
+                rObject = MplayerProcess("Radio", "---", "")
+	    else:
+		self.write('Currently playing: '+rObject.Description)
+        except Exception, err:
+            errMsg = str(err)
+            errNum = errNumStopRadioStationFailed
+
+	try:
+	    self.write('<ul>')
+	    for radio in Radios().Radios:
+               id = radio.RadioId
+               url = radio.StreamUrl
+               description = radio.DisplayName
+               self.write('<li><a href="/radio/play/'+id+'">'+id+': '+description+'</a></li>')
+
+	    self.write('</ul>')
+	    self.write('<a href="/radio/stop">Stop</a><br>')
+	except Exception, err:
+		errMsg = str(err)
+	        errNum = errNumStopRadioStationFailed
+		self.write(errNum+": "+errMsg)

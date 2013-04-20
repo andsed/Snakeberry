@@ -1,3 +1,4 @@
+#!/usr/bin/python
 ## common.py
 ## This file is part of Snakeberry by Bruno Hautzenberger (http://the-engine.at)
 ## Dual-licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -20,6 +21,7 @@ if __name__ == "__main__":
         (r"/radio/play/(.*)", PlayRadio),
         (r"/radio/stop", StopRadio),
         (r"/radio/nowplaying", RadioNowPlaying),
+	(r"/radio", RadioWebControl),
         (r"/getvolume", GetVolume),
         (r"/setvolume/(.*)", SetVolume),
         (r"/getmac", GetMac),
